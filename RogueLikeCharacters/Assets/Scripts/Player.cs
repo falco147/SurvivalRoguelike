@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MovingObject {
 
@@ -7,6 +8,7 @@ public class Player : MovingObject {
 	public int pointsPerFood = 10;
 	public int pointsPerSoda = 20;
 	public float restartLevelDelay = 1f;
+	public Text foodText;
 
 	private Animator animator;
 	private int Food;
@@ -17,6 +19,8 @@ public class Player : MovingObject {
 		animator = GetComponent<Animator> ();
 
 		Food = GameManager.instance.playerFoodPoints;
+
+		foodText.text = "food: " + Food;
 
 		base.Start ();
 	
@@ -53,6 +57,7 @@ public class Player : MovingObject {
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
 		Food--;
+		foodText.text = "Food: " + Food;
 
 		base.AttemptMove <T> (xDir, yDir);
 
@@ -69,14 +74,16 @@ public class Player : MovingObject {
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
 		}
-		else if (other.tag == "food")
+		else if (other.tag == "Food")
 		{
 			Food += pointsPerFood;
+			foodText.text = "+" + pointsPerFood + " Food: " +Food;
 			other.gameObject.SetActive (false);
 		} 
 		else if (other.tag == "Soda")
 		{
 			Food += pointsPerSoda;
+			foodText.text = "+" + pointsPerSoda + " Food: " +Food;
 			other.gameObject.SetActive(false);
 		}
 	}
@@ -97,6 +104,7 @@ public class Player : MovingObject {
 	{
 		animator.SetTrigger ("playerHit");
 		Food -= loss;
+		foodText.text = "-" + loss + " Food: " + Food;
 		CheckIfGameOver ();
 	}
 
