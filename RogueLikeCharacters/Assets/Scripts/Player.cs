@@ -11,16 +11,16 @@ public class Player : MovingObject {
 	public Text foodText;
 
 	private Animator animator;
-	private int Food;
+	private int food;
 
 
 	protected override void Start () 
 	{
 		animator = GetComponent<Animator> ();
 
-		Food = GameManager.instance.playerFoodPoints;
+		food = GameManager.instance.playerFoodPoints;
 
-		foodText.text = "food: " + Food;
+		foodText.text = "Food: " + food;
 
 		base.Start ();
 	
@@ -28,11 +28,11 @@ public class Player : MovingObject {
 
 	private void OnDisable()
 	{
-		GameManager.instance.playerFoodPoints = Food;
+		GameManager.instance.playerFoodPoints = food;
 
 	}
 	
-	// Update is called once per frame
+
 	void Update ()
 	{
 		if (!GameManager.instance.playersTurn)
@@ -56,8 +56,8 @@ public class Player : MovingObject {
 
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
-		Food--;
-		foodText.text = "Food: " + Food;
+		food--;
+		foodText.text = "Food: " + food;
 
 		base.AttemptMove <T> (xDir, yDir);
 
@@ -76,15 +76,15 @@ public class Player : MovingObject {
 		}
 		else if (other.tag == "Food")
 		{
-			Food += pointsPerFood;
-			foodText.text = "+" + pointsPerFood + " Food: " +Food;
+			food += pointsPerFood;
+			foodText.text = "+" + pointsPerFood + " Food: " + food;
 			other.gameObject.SetActive (false);
 		} 
 		else if (other.tag == "Soda")
 		{
-			Food += pointsPerSoda;
-			foodText.text = "+" + pointsPerSoda + " Food: " +Food;
-			other.gameObject.SetActive(false);
+			food += pointsPerSoda;
+			foodText.text = "+" + pointsPerSoda + " Food: " + food;
+			other.gameObject.SetActive (false);
 		}
 	}
 
@@ -103,14 +103,14 @@ public class Player : MovingObject {
 	public void LoseFood (int loss)
 	{
 		animator.SetTrigger ("playerHit");
-		Food -= loss;
-		foodText.text = "-" + loss + " Food: " + Food;
+		food -= loss;
+		foodText.text = "-" + loss + " Food: " + food;
 		CheckIfGameOver ();
 	}
 
 	private void CheckIfGameOver()
 	{
-		if (Food <= 0)
+		if (food <= 0)
 			GameManager.instance.GameOver ();
 
 	}

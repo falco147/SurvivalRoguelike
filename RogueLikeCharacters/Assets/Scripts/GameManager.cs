@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 	public float levelStartDelay = 2f;
 	public float turnDelay = .1f;
 	public static GameManager instance = null;
-	private BoardManager boardScript;
+	public BoardManager boardScript;
 	public int playerFoodPoints = 100;
 	[HideInInspector] public bool playersTurn = true;
 
